@@ -35,7 +35,7 @@ public class SummonUnboundAfritEntry extends EntryProvider {
                  and it thus can only be used to fight and kill {4}.
                 """,
                 this.color("Unbound Afrit", ChatFormatting.DARK_PURPLE),
-                this.color("Abras Open Conjure", ChatFormatting.LIGHT_PURPLE),
+                this.color("Abras Conjure", ChatFormatting.LIGHT_PURPLE),
                 this.color("Afrit", ChatFormatting.DARK_PURPLE),
                 this.color("Afrit", ChatFormatting.DARK_PURPLE),
                 this.color("Afrit", ChatFormatting.DARK_PURPLE)
