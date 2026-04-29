@@ -4,6 +4,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v26.1.2-1.222.0] - 2026-04-29
+### :sparkles: New Features
+- [`18c917a`](https://github.com/klikli-dev/occultism/commit/18c917af6c20292c4ef62ef7e6a6984043457ff8) - update to new modonomicon *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
+## [release/v26.1.2-1.221.1] - 2026-04-25
+### :bug: Bug Fixes
+- [`d75c920`](https://github.com/klikli-dev/occultism/commit/d75c92097b62fb1b140eaef3170020bacbe0f97e) - restore issue [#1574](https://github.com/klikli-dev/occultism/pull/1574) regressions for 26.1.2 *(PR [#1591](https://github.com/klikli-dev/occultism/pull/1591) by [@klikli-dev](https://github.com/klikli-dev))*
+
+
+## [release/v26.1.2-1.221.0] - 2026-04-24
+### :sparkles: New Features
+- [`342c830`](https://github.com/klikli-dev/occultism/commit/342c830e702cc85ecfb76494d6959f9643b2dcd0) - update agents.md *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`f9c71ca`](https://github.com/klikli-dev/occultism/commit/f9c71ca84cc8837b7bf37d347f47abe1938327ff) - restore familiar ring effects *(PR [#1590](https://github.com/klikli-dev/occultism/pull/1590) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *fixes issue [#1589](https://github.com/klikli-dev/occultism/issues/1589) opened by [@supdogpsi](https://github.com/supdogpsi)*
+
+
+## [release/v26.1.2-1.220.0] - 2026-04-21
+### :bug: Bug Fixes
+- [`86e622b`](https://github.com/klikli-dev/occultism/commit/86e622bf18e2304305da1b49806faa45e7c1d17b) - update loot modifier codec and familiar item handlers *(PR [#1586](https://github.com/klikli-dev/occultism/pull/1586) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *fixes issue [#1585](https://github.com/klikli-dev/occultism/issues/1585) opened by [@2el222](https://github.com/2el222)*
+
+
+## [release/v26.1.2-1.218.4] - 2026-04-21
+### :bug: Bug Fixes
+- [`7692b12`](https://github.com/klikli-dev/occultism/commit/7692b123d9119574fcf83dd06ac910c9d6d0412f) - preserve spirit stack counts with resource handlers *(PR [#1584](https://github.com/klikli-dev/occultism/pull/1584) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *fixes issue [#1570](https://github.com/klikli-dev/occultism/issues/1570) opened by [@supdogpsi](https://github.com/supdogpsi)*
+
+
+## [release/v26.1.2-1.218.3] - 2026-04-21
+### :bug: Bug Fixes
+- [`ade7d04`](https://github.com/klikli-dev/occultism/commit/ade7d0471e8edc7c8d8ad103f0cabdc22f202a84) - consume golden bowl activation item on ritual completion *(PR [#1583](https://github.com/klikli-dev/occultism/pull/1583) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *fixes issue [#1572](https://github.com/klikli-dev/occultism/issues/1572) opened by [@supdogpsi](https://github.com/supdogpsi)*
+
+
+## [release/v26.1.2-1.218.2] - 2026-04-20
+### :bug: Bug Fixes
+- [`feaaba8`](https://github.com/klikli-dev/occultism/commit/feaaba8550029a3ad08d61592e7bbbf9b3346fc1) - render otherworld goggles as head equipment *(PR [#1581](https://github.com/klikli-dev/occultism/pull/1581) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *fixes issue [#1580](https://github.com/klikli-dev/occultism/issues/1580) opened by [@klikli-dev](https://github.com/klikli-dev)*
+
+
+## [release/v26.1.2-1.218.1] - 2026-04-20
+### :bug: Bug Fixes
+- [`2d93bb9`](https://github.com/klikli-dev/occultism/commit/2d93bb9feb5e498e7da851b2badd5b407cbbff75) - address remaining PR 1578 follow-up issues *(PR [#1579](https://github.com/klikli-dev/occultism/pull/1579) by [@klikli-dev](https://github.com/klikli-dev))*
+
+
+## [release/v26.1.2-1.218.0] - 2026-04-20
+### :sparkles: New Features
+- [`a14c4d8`](https://github.com/klikli-dev/occultism/commit/a14c4d89434624405ab27c8b6c0af0a44de283f7) - New Crowdin updates *(PR [#1577](https://github.com/klikli-dev/occultism/pull/1577) by [@klikli-dev](https://github.com/klikli-dev))*
+- [`9a41633`](https://github.com/klikli-dev/occultism/commit/9a41633de76b97f159f6ab8f24c96c834b25108f) - 26.1 omnibus port todos *(PR [#1578](https://github.com/klikli-dev/occultism/pull/1578) by [@klikli-dev](https://github.com/klikli-dev))*
+
+
+## [release/v26.1.2-1.217.0] - 2026-04-20
+### :bug: Bug Fixes
+- [`6263f74`](https://github.com/klikli-dev/occultism/commit/6263f746ae0fb90880ff58a6a6b4964db653058f) - Some fixes *(PR [#1576](https://github.com/klikli-dev/occultism/pull/1576) by [@Eqis-Edu](https://github.com/Eqis-Edu))*
+  - :arrow_lower_right: *fixes issue [#1571](https://github.com/klikli-dev/occultism/issues/1571) opened by [@supdogpsi](https://github.com/supdogpsi)*
+
+
 ## [release/v26.1.2-1.216.1] - 2026-04-19
 ### :bug: Bug Fixes
 - [`0d188a0`](https://github.com/klikli-dev/occultism/commit/0d188a0f9123ae5d5ab76d089a292b22e6934fb2) - wandering trader ritual render crash *(PR [#1569](https://github.com/klikli-dev/occultism/pull/1569) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -2464,3 +2524,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v26.1.2-1.215.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.214.1...release/v26.1.2-1.215.0
 [release/v26.1.2-1.216.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.215.0...release/v26.1.2-1.216.0
 [release/v26.1.2-1.216.1]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.216.0...release/v26.1.2-1.216.1
+[release/v26.1.2-1.217.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.216.1...release/v26.1.2-1.217.0
+[release/v26.1.2-1.218.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.217.0...release/v26.1.2-1.218.0
+[release/v26.1.2-1.218.1]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.218.0...release/v26.1.2-1.218.1
+[release/v26.1.2-1.218.2]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.218.1...release/v26.1.2-1.218.2
+[release/v26.1.2-1.218.3]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.218.2...release/v26.1.2-1.218.3
+[release/v26.1.2-1.218.4]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.218.3...release/v26.1.2-1.218.4
+[release/v26.1.2-1.220.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.219.0...release/v26.1.2-1.220.0
+[release/v26.1.2-1.221.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.220.0...release/v26.1.2-1.221.0
+[release/v26.1.2-1.221.1]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.221.0...release/v26.1.2-1.221.1
+[release/v26.1.2-1.222.0]: https://github.com/klikli-dev/occultism/compare/release/v26.1.2-1.221.2...release/v26.1.2-1.222.0

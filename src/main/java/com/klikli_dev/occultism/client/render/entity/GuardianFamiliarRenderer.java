@@ -24,6 +24,7 @@ package com.klikli_dev.occultism.client.render.entity;
 
 import com.klikli_dev.occultism.Occultism;
 import com.klikli_dev.occultism.client.model.entity.GuardianFamiliarModel;
+import com.klikli_dev.occultism.client.render.entity.state.GuardianFamiliarRenderState;
 import com.klikli_dev.occultism.common.entity.familiar.GuardianFamiliarEntity;
 import com.klikli_dev.occultism.registry.OccultismModelLayers;
 import com.klikli_dev.occultism.util.FamiliarUtil;
@@ -31,36 +32,28 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.client.model.Model;
 import org.joml.Quaternionf;
 
+import java.util.function.Function;
+import net.minecraft.client.renderer.rendertype.RenderType;
 
-public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity, LivingEntityRenderState, GuardianFamiliarModel> {
+
+public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity, GuardianFamiliarRenderState, GuardianFamiliarModel> {
 
     private static final Identifier TEXTURES = Identifier.fromNamespaceAndPath(Occultism.MODID,
             "textures/entity/guardian_familiar.png");
-
-    private static final ContextKey<Boolean> IS_SITTING = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_is_sitting"));
-    private static final ContextKey<Byte> LIVES = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_lives"));
-    private static final ContextKey<Float> ANIM_HEIGHT = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_anim_height"));
-    private static final ContextKey<Boolean> HAS_TOOLS = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_has_tools"));
-    private static final ContextKey<Boolean> HAS_TREE = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_has_tree"));
-    private static final ContextKey<Float> RED = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_red"));
-    private static final ContextKey<Float> GREEN = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_green"));
-    private static final ContextKey<Float> BLUE = new ContextKey<>(Identifier.fromNamespaceAndPath(Occultism.MODID, "guardian_blue"));
 
     private final ItemModelResolver itemModelResolver;
 
@@ -70,36 +63,35 @@ public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity
         this.addLayer(new GuardianFamiliarOverlay(this));
         this.addLayer(new ToolsLayer(this, this.itemModelResolver));
         this.addLayer(new GuardianFamiliarTree(this));
+        this.addLayer(new BirdLayer(this));
     }
 
     @Override
-    public void extractRenderState(GuardianFamiliarEntity entity, LivingEntityRenderState reusedState, float partialTick) {
+    public void extractRenderState(GuardianFamiliarEntity entity, GuardianFamiliarRenderState reusedState, float partialTick) {
         super.extractRenderState(entity, reusedState, partialTick);
-        reusedState.setRenderData(IS_SITTING, entity.isSitting());
-        reusedState.setRenderData(LIVES, entity.getLives());
-        reusedState.setRenderData(ANIM_HEIGHT, entity.getAnimationHeight(partialTick));
-        reusedState.setRenderData(HAS_TOOLS, entity.hasTools());
-        reusedState.setRenderData(HAS_TREE, entity.hasTree());
-        reusedState.setRenderData(RED, entity.getRed());
-        reusedState.setRenderData(GREEN, entity.getGreen());
-        reusedState.setRenderData(BLUE, entity.getBlue());
+        reusedState.isSitting = entity.isSitting();
+        reusedState.isPartying = entity.isPartying();
+        reusedState.lives = entity.getLives();
+        reusedState.animHeight = entity.getAnimationHeight(partialTick);
+        reusedState.hasBird = entity.hasBird();
+        reusedState.hasTools = entity.hasTools();
+        reusedState.hasTree = entity.hasTree();
+        reusedState.red = entity.getRed();
+        reusedState.green = entity.getGreen();
+        reusedState.blue = entity.getBlue();
     }
 
     @Override
-    public LivingEntityRenderState createRenderState() {
-        return new LivingEntityRenderState();
+    public GuardianFamiliarRenderState createRenderState() {
+        return new GuardianFamiliarRenderState();
     }
 
     @Override
-    public void submit(LivingEntityRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+    public void submit(GuardianFamiliarRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         poseStack.pushPose();
-        Boolean sitting = state.getRenderData(IS_SITTING);
-        Byte lives = state.getRenderData(LIVES);
-        Float animHeight = state.getRenderData(ANIM_HEIGHT);
-
-        boolean isSitting = sitting != null && sitting;
-        boolean noLegs = lives != null && lives <= GuardianFamiliarEntity.FLOATING;
-        float height = animHeight != null ? animHeight : 0f;
+        boolean isSitting = state.isSitting;
+        boolean noLegs = state.lives <= GuardianFamiliarEntity.FLOATING;
+        float height = state.animHeight;
 
         poseStack.translate(0,
                 isSitting ? (noLegs ? -0.5 : -0.36) : height * 0.08, 0);
@@ -108,30 +100,26 @@ public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity
     }
 
     @Override
-    public Identifier getTextureLocation(LivingEntityRenderState state) {
+    public Identifier getTextureLocation(GuardianFamiliarRenderState state) {
         return TEXTURES;
     }
 
-    private static class GuardianFamiliarOverlay extends RenderLayer<LivingEntityRenderState, GuardianFamiliarModel> {
+    private static class GuardianFamiliarOverlay extends RenderLayer<GuardianFamiliarRenderState, GuardianFamiliarModel> {
         private static final Identifier OVERLAY = Identifier.fromNamespaceAndPath(Occultism.MODID,
                 "textures/entity/guardian_familiar_overlay.png");
 
-        public GuardianFamiliarOverlay(RenderLayerParent<LivingEntityRenderState, GuardianFamiliarModel> parent) {
+        public GuardianFamiliarOverlay(RenderLayerParent<GuardianFamiliarRenderState, GuardianFamiliarModel> parent) {
             super(parent);
         }
 
         @Override
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, LivingEntityRenderState state, float yRot, float xRot) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, GuardianFamiliarRenderState state, float yRot, float xRot) {
             if (state.isInvisible)
                 return;
 
-            Float red = state.getRenderData(GuardianFamiliarRenderer.RED);
-            Float green = state.getRenderData(GuardianFamiliarRenderer.GREEN);
-            Float blue = state.getRenderData(GuardianFamiliarRenderer.BLUE);
-
-            float r = red != null ? red : 1f;
-            float g = green != null ? green : 1f;
-            float b = blue != null ? blue : 1f;
+            float r = state.red;
+            float g = state.green;
+            float b = state.blue;
 
             // Compute alpha from ageInTicks
             float a = (Mth.cos(state.ageInTicks / 20) + 1) * 0.3f + 0.4f;
@@ -145,20 +133,19 @@ public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity
         }
     }
 
-    private static class ToolsLayer extends RenderLayer<LivingEntityRenderState, GuardianFamiliarModel> {
+    private static class ToolsLayer extends RenderLayer<GuardianFamiliarRenderState, GuardianFamiliarModel> {
         private final ItemModelResolver itemModelResolver;
 
-        public ToolsLayer(RenderLayerParent<LivingEntityRenderState, GuardianFamiliarModel> parent, ItemModelResolver itemModelResolver) {
+        public ToolsLayer(RenderLayerParent<GuardianFamiliarRenderState, GuardianFamiliarModel> parent, ItemModelResolver itemModelResolver) {
             super(parent);
             this.itemModelResolver = itemModelResolver;
         }
 
         @Override
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, LivingEntityRenderState state, float yRot, float xRot) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, GuardianFamiliarRenderState state, float yRot, float xRot) {
             if (state.isInvisible)
                 return;
-            Boolean hasTools = state.getRenderData(GuardianFamiliarRenderer.HAS_TOOLS);
-            if (hasTools == null || !hasTools)
+            if (!state.hasTools)
                 return;
 
             GuardianFamiliarModel model = this.getParentModel();
@@ -195,24 +182,23 @@ public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity
         }
     }
 
-    private static class GuardianFamiliarTree extends RenderLayer<LivingEntityRenderState, GuardianFamiliarModel> {
+    private static class GuardianFamiliarTree extends RenderLayer<GuardianFamiliarRenderState, GuardianFamiliarModel> {
         private static final Identifier TREE = Identifier.fromNamespaceAndPath(Occultism.MODID,
                 "textures/entity/guardian_familiar_tree.png");
         private static final Identifier CHRISTMAS = Identifier.fromNamespaceAndPath(Occultism.MODID,
                 "textures/entity/guardian_familiar_christmas.png");
 
-        public GuardianFamiliarTree(RenderLayerParent<LivingEntityRenderState, GuardianFamiliarModel> renderer) {
+        public GuardianFamiliarTree(RenderLayerParent<GuardianFamiliarRenderState, GuardianFamiliarModel> renderer) {
             super(renderer);
         }
 
         @Override
-        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, LivingEntityRenderState state, float yRot, float xRot) {
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, GuardianFamiliarRenderState state, float yRot, float xRot) {
             if (state.isInvisible)
                 return;
 
             boolean isChristmas = FamiliarUtil.isChristmas();
-            Boolean hasTree = state.getRenderData(GuardianFamiliarRenderer.HAS_TREE);
-            boolean showTree = isChristmas || (hasTree != null && hasTree);
+            boolean showTree = isChristmas || state.hasTree;
 
             GuardianFamiliarModel model = this.getParentModel();
             model.tree1.visible = showTree;
@@ -224,6 +210,36 @@ public class GuardianFamiliarRenderer extends MobRenderer<GuardianFamiliarEntity
             // Reset visibility
             model.tree1.visible = false;
             model.tree2.visible = false;
+        }
+    }
+
+    private static class BirdLayer extends RenderLayer<GuardianFamiliarRenderState, GuardianFamiliarModel> {
+        private final BirdOnlyModel birdModel;
+
+        public BirdLayer(RenderLayerParent<GuardianFamiliarRenderState, GuardianFamiliarModel> parent) {
+            super(parent);
+            GuardianFamiliarModel model = parent.getModel();
+            this.birdModel = new BirdOnlyModel(model.birdBody, model::renderType);
+        }
+
+        @Override
+        public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, GuardianFamiliarRenderState state, float yRot, float xRot) {
+            GuardianFamiliarModel model = this.getParentModel();
+            if (!state.hasBird || model.leftArm1.visible || state.isInvisible) {
+                return;
+            }
+
+            poseStack.pushPose();
+            model.body.translateAndRotate(poseStack);
+            model.leftArm1.translateAndRotate(poseStack);
+            RenderLayer.renderColoredCutoutModel(this.birdModel, TEXTURES, poseStack, submitNodeCollector, lightCoords, state, -1, 0);
+            poseStack.popPose();
+        }
+
+        private static class BirdOnlyModel extends Model<GuardianFamiliarRenderState> {
+            public BirdOnlyModel(net.minecraft.client.model.geom.ModelPart root, Function<Identifier, RenderType> renderType) {
+                super(root, renderType);
+            }
         }
     }
 }
